@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: snake_mysql
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: GroupAssignmentDB
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_socket:/var/run/mysqld
+      - ./db:/docker-entrypoint-initdb.d
+
+    ports:
+      - "3306:3306"
+
+
+  web:
+    build: .
+    container_name: snake_php
+    restart: always
+
+    depends_on:
+      - mysql
+
+    volumes:
+      - mysql_socket:/var/run/mysqld   # ONLY THIS
+
+    ports:
+      - "8000:80"
+
+
+volumes:
+  mysql_data:
+  mysql_socket:

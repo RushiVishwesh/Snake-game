@@ -1,0 +1,60 @@
+body{
+    background-color: rgb(214, 214, 214);
+}
+
+h3, h4 {
+    text-align: center;
+    font-family:'Segoe UI Semibold', sans-serif;  
+}
+
+#scoreBoard {
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+#Login{
+    width: 60%;
+    margin: 2% 20%;
+    padding: 2%;
+    background-color: honeydew;
+}
+
+#Login > * > * {
+    margin: 1%;
+}
+
+#screen, .board {
+    width: 510px;
+    height: 510px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#high_scores {
+    padding: 2% 4%;
+}
+
+#userScore > * {
+    font-weight: bold;
+}
+
+#screen > * {
+    font-family:'Segoe UI Semibold', sans-serif;
+    color: green;
+}
+
+td {
+    width: 17px;
+    height: 17px;
+    border: 0;
+}
+
+.columns {
+    background-color: black;
+}
+
+footer{
+    padding-left: 1%;
+}
