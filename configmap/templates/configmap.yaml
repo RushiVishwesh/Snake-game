@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configMapName }}
+data:
+  groupassignmentdb.sql: |
+{{ .Files.Get .Values.sqlFilePath | indent 4 }}

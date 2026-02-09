@@ -1,0 +1,2 @@
+configMapName: mysql-init-sql
+sqlFilePath: db/groupassignmentdb.sql
