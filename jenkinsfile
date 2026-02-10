@@ -1,0 +1,173 @@
+pipeline {
+    agent any
+
+    stages {
+
+        // -------------------------
+        // 1. SCM Checkout
+        // -------------------------
+        stage('SCM Checkout') {
+            steps {
+                echo 'Checking out Snake-game repository...'
+                git branch: 'main', url: 'https://github.com/RushiVishwesh/Snake-game.git'
+            }
+        }
+
+        // -------------------------
+        // 2. Deploy Persistent Volume
+        // -------------------------
+        stage('Deploy PV') {
+            steps {
+                script {
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'k-cluster',
+                                transfers: [
+                                    sshTransfer(
+                                        cleanRemote: false,
+                                        sourceFiles: 'sql-pv.yaml',
+                                        remoteDirectory: '.',
+                                        execCommand: 'kubectl apply -f sql-pv.yaml',
+                                        execTimeout: 180000
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: false
+                            )
+                        ]
+                    )
+                }
+            }
+        }
+
+        // -------------------------
+        // 3. Deploy ConfigMap via Helm
+        // -------------------------
+        stage('Deploy ConfigMap via Helm') {
+            steps {
+                script {
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'k-cluster',
+                                transfers: [
+                                    sshTransfer(
+                                        cleanRemote: false,
+                                        sourceFiles: 'db/db.php,db/groupassignmentdb.sql,configmap/Chart.yaml,configmap/values.yaml,configmap/templates/configmap.yaml',
+                                        remoteDirectory: '.',
+                                        execCommand: '''
+                                            cp -r db configmap/.
+                                            cd configmap
+                                            helm upgrade --install mysql-config .
+                                            cd ..
+                                        ''',
+                                        execTimeout: 180000
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: false
+                            )
+                        ]
+                    )
+                }
+            }
+        }
+
+        // -------------------------
+        // 4. Deploy MySQL
+        // -------------------------
+        stage('Deploy MySQL') {
+            steps {
+                script {
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'k-cluster',
+                                transfers: [
+                                    sshTransfer(
+                                        cleanRemote: false,
+                                        sourceFiles: 'mysql.yaml',
+                                        remoteDirectory: '.',
+                                        execCommand: 'kubectl apply -f mysql.yaml',
+                                        execTimeout: 180000
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: false
+                            )
+                        ]
+                    )
+                }
+            }
+        }
+
+        // -------------------------
+        // 5. Deploy PHP App
+        // -------------------------
+        stage('Deploy PHP App') {
+            steps {
+                script {
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'k-cluster',
+                                transfers: [
+                                    sshTransfer(
+                                        cleanRemote: false,
+                                        sourceFiles: 'app.yaml',
+                                        remoteDirectory: '.',
+                                        execCommand: 'kubectl apply -f app.yaml',
+                                        execTimeout: 120000
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: false
+                            )
+                        ]
+                    )
+                }
+            }
+        }
+
+        // -------------------------
+        // 6. Verify Deployment
+        // -------------------------
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'k-cluster',
+                                transfers: [
+                                    sshTransfer(
+                                        cleanRemote: false,
+                                        sourceFiles: '',
+                                        remoteDirectory: '.',
+                                        execCommand: '''
+                                            kubectl get pv
+                                            kubectl get pvc
+                                            kubectl get configmap
+                                            kubectl get pods
+                                            kubectl get svc
+                                        ''',
+                                        execTimeout: 120000
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: true  // <-- Set verbose to true
+                            )
+                        ]
+                    )
+                }
+            }
+        }
+
+    }
+}
