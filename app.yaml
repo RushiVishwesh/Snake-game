@@ -29,7 +29,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - name: webapp1
+      - name: webapp
         image: vishweshrushi/snake-game:latest
         imagePullPolicy: Always
         ports:
