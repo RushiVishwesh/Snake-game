@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Values.configMapName }}
+  namespace: {{ .Release.Namespace }}
 data:
   groupassignmentdb.sql: |
 {{ .Files.Get .Values.sqlFilePath | indent 4 }}
