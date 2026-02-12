@@ -4,14 +4,13 @@ metadata:
   name: webapp-sql
   namespace: app
 spec:
-  type: NodePort
   selector:
     app: webapp-sql
     tier: frontend
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30007
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
