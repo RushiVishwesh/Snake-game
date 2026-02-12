@@ -1,13 +1,8 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: mysql
----
-apiVersion: v1
 kind: Service
 metadata:
   name: mysql
-  namespace: mysql
+  namespace: app
 spec:
   ports:
     - port: 3306
@@ -19,7 +14,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sqldb
-  namespace: mysql
+  namespace: app
 spec:
   strategy:
     type: Recreate
@@ -36,7 +31,6 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
-
         args: ["--default-authentication-plugin=mysql_native_password"]
 
         env:
@@ -52,7 +46,6 @@ spec:
         - name: mysql-storage
           mountPath: /var/lib/mysql
 
-        # ⭐ AUTO SQL RUNS HERE
         - name: sql-init
           mountPath: /docker-entrypoint-initdb.d
 
