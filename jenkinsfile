@@ -59,9 +59,8 @@ pipeline {
                                         remoteDirectory: '.',
                                         execCommand: '''
                                             cp -r db configmap/.
-                                            cd configmap
-                                            helm upgrade --install mysql-config .
-                                            cd ..
+                                            helm install mysql-config ./configmap -n app
+                                            rm -r db
                                         ''',
                                         execTimeout: 180000
                                     )
