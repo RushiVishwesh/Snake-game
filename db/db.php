@@ -9,8 +9,8 @@
 	// $dbname = "aditya";
 	
 	$hostservername = "mysql";
-	$username = "root";
-	$password = "root";
+	$username admin";
+	$password = "Vishu123";
 	$dbname = "GroupAssignmentDB";
 
 	$dbconnection = new mysqli($hostservername, $username, $password, $dbname);
@@ -20,3 +20,4 @@
 		die("Sorry, There was an error connecting to the database.");
 	}
 ?>
+
