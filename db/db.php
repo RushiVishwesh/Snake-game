@@ -8,7 +8,7 @@
 	// $password = "XdEZbZP99WtgrBVUE35A5C4dx";
 	// $dbname = "aditya";
 	
-	$hostservername = "groupassignment-mysql-snake.cbu08ke6wjib.ap-south-1.rds.amazonaws.com";
+	$hostservername = "snake-db.cbu08ke6wjib.ap-south-1.rds.amazonaws.com";
 	$username = "admin";
 	$password = "Vishu123";
 	$dbname = "GroupAssignmentDB";
@@ -20,6 +20,7 @@
 		die("Sorry, There was an error connecting to the database.");
 	}
 ?>
+
 
 
 
