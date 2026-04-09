@@ -1,0 +1,42 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: webapp-hpa
+  namespace: app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: webapp
+
+  minReplicas: 1              # ✅ Scale down to 1 pod when idle (cost savings)
+  maxReplicas: 20             # ✅ Scale up to 20 if needed
+
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 65       # Scale when CPU > 65%
+
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 75       # Scale when memory > 75%
+
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100                   # Double pods immediately under load
+        periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 600    # Wait 10 min before scaling down
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
