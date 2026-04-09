@@ -1,0 +1,22 @@
+apiVersion: v1
+data:
+  groupassignmentdb.sql: "-- phpMyAdmin SQL Dump\r\n-- version 4.9.5\r\n-- https://www.phpmyadmin.net/\r\n--\r\n--
+    Host: localhost:3306\r\n-- Generation Time: Feb 28, 2021 at 05:55 PM\r\n-- Server
+    Table structure for table `user-details`\r\n--\r\n\r\nCREATE TABLE `user-details`
+    (\r\n  `id` int(11) NOT NULL,\r\n  `username` varchar(64) NOT NULL,\r\n  `high_score`
+    int(64) NOT NULL DEFAULT '0'\r\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\r\n\r\n--\r\n--
+    Indexes for dumped tables\r\n--\r\n\r\n--\r\n-- Indexes for table `user-credentials`\r\n--\r\nALTER
+    TABLE `user-credentials`\r\n  ADD UNIQUE KEY `id` (`id`);\r\n\r\n--\r\n-- Indexes
+    for table `user-details`\r\n--\r\nALTER TABLE `user-details`\r\n  ADD UNIQUE KEY
+    `id` (`id`);\r\n\r\n--\r\n-- AUTO_INCREMENT for dumped tables\r\n--\r\n\r\n--\r\n--
+    AUTO_INCREMENT for table `user-credentials`\r\n--\r\nALTER TABLE `user-credentials`\r\n
+    \ MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;\r\n\r\n--\r\n--
+    AUTO_INCREMENT for table `user-details`\r\n--\r\nALTER TABLE `user-details`\r\n
+    \ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;\r\nCOMMIT;\r\n\r\n/*!40101
+    SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\r\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS
+    */;\r\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\r\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: mysql-init-sql
+  namespace: app
