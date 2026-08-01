@@ -1,6 +1,6 @@
 image:
   repository: vishweshrushi/snake-game
-  tag: latest
+  tag: test1
   pullPolicy: Always
 
 configMapName: mysql-init-sql
