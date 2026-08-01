@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: vishweshrushi/snake-game:latest
-        imagePullPolicy: Always
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 80
