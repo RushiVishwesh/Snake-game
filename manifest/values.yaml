@@ -1,2 +1,7 @@
+image:
+  repository: YOUR_DOCKERHUB_USERNAME/snake-game
+  tag: latest
+  pullPolicy: Always
+
 configMapName: mysql-init-sql
 sqlFilePath: db/groupassignmentdb.sql
