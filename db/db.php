@@ -8,10 +8,10 @@
 	// $password = "XdEZbZP99WtgrBVUE35A5C4dx";
 	// $dbname = "aditya";
 	
-	$hostservername = "snake-db.cbu08ke6wjib.ap-south-1.rds.amazonaws.com";
-	$username = "admin";
-	$password = "Vishu123";
-	$dbname = "GroupAssignmentDB";
+	$hostservername = getenv("DB_HOST");
+        $username = getenv("DB_USER");
+        $password = getenv("DB_PASSWORD");
+        $dbname = getenv("DB_NAME");
 
 	$dbconnection = new mysqli($hostservername, $username, $password, $dbname);
 
