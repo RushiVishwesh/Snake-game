@@ -1,0 +1,4 @@
+image:
+  repository: vishweshrushi/snake-game
+  tag: "2"
+  pullPolicy: Always

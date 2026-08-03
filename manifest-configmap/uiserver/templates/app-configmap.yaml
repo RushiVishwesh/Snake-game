@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snake-config
+  namespace: app
+
+data:
+  DB_HOST: mysql.mysql
+  DB_NAME: GroupAssignmentDB
+  DB_USER: root
+  DB_PASSWORD: root
